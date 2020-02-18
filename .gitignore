@@ -1,4 +1,6 @@
-######################
-## EPiServer Files
-######################
-*License.config
+_ReSharper.Caches/
+.vs/
+src/WebApp/bin/
+src/WebApp/obj/
+src/WebApp/WebApp.csproj.user
+src/WebApp/Properties/PublishProfiles/FolderProfile.pubxml.user

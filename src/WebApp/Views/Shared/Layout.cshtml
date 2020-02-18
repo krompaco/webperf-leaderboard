@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Webperf Core Leaderboard</title>
+	<meta name="description" content="Visar resultat från senaste webperf_core-körningen." />
+	<link rel="stylesheet" href="~/css/tailwindcss-plugin-for-epi.css" />
+</head>
+<body class="font-sans text-copy bg-admin">
+	<div class="m-4" id="js-main">
+		<div class="flex mb-3">
+			<div class="flex-auto" role="navigation">
+				<ul class="flex">
+					<li class="mr-6">
+						<a class="text-blue-800 underline hover:text-blue-900" href="#main">Hoppa till sidans huvudinnehåll</a>
+					</li>
+					<li class="mr-6">
+						<a class="text-blue-800 underline hover:text-blue-900" href="~/swagger/index.html">Swagger UI</a>
+					</li>
+				</ul>
+			</div>
+			<div class="flex-auto text-right invisible sm:visible" role="banner">
+				<h1 class="font-bold">Webperf Core Leaderboard</h1>
+			</div>
+		</div>
+		<div class="mb-3" id="main" role="main">
+			@RenderBody()
+		</div>
+	</div>
+</body>
+</html>
