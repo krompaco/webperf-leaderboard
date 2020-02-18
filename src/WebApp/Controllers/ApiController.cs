@@ -96,11 +96,9 @@ namespace WebApp.Controllers
                             .ThenByDescending(x => x.Tests.FirstOrDefault()?.Rating ?? 0d)
                             .ToList();
 
-                        // Set cache options.
                         var cacheEntryOptions = new MemoryCacheEntryOptions()
                             .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
 
-                        // Save data in cache.
                         this.memoryCache.Set(ck, model, cacheEntryOptions);
                     }
                 }
