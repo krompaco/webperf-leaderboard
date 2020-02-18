@@ -1,4 +1,4 @@
-# webperf-leaderboard
+# Webperf Core Leaderboard
 Reads Webperf Core SQLite data onto a dashboard like .NET Core 3 ASP.NET MVC driven web page.
 
 ![Screenshot](https://raw.githubusercontent.com/krompaco/webperf-leaderboard/master/docs/index-view.png)
