@@ -47,7 +47,7 @@ namespace WebApp.Controllers
                     {
                         var dataSource = this.config.GetValue<string>("AppSettings:SqliteDataSource");
 
-                        var connectionStringBuilder = new SqliteConnectionStringBuilder {DataSource = dataSource};
+                        var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = dataSource };
 
                         using var connection = new SqliteConnection(connectionStringBuilder.ConnectionString);
                         connection.Open();
