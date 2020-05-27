@@ -54,7 +54,7 @@ namespace WebApp.Controllers
 
                         var selectCmd = connection.CreateCommand();
                         selectCmd.CommandText =
-                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE most_recent = 1  ORDER BY site_id, type_of_test";
+                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE most_recent = 1 AND type_of_test IN (1, 2, 6, 7, 20) ORDER BY site_id, type_of_test";
 
                         var currentSiteId = -1;
                         WebperfSite currentSite = null;
@@ -92,7 +92,8 @@ namespace WebApp.Controllers
 
                         // Sort by rating
                         model.Sites = model.Sites
-                            .OrderByDescending(x => x.Rating)
+                            .OrderBy(x => x.Tests.Count == 5 ? 0 : 1)
+                            .ThenByDescending(x => x.Rating)
                             .ThenByDescending(x => x.Tests.FirstOrDefault()?.Rating ?? 0d)
                             .ToList();
 
@@ -109,7 +110,7 @@ namespace WebApp.Controllers
 
         private static void SetRating(WebperfSite site)
         {
-            if (site != null && site.Tests.Any())
+            if (site != null && site.Tests.Count == 5)
             {
                 site.Rating = site.Tests.Average(x => x.Rating);
             }
