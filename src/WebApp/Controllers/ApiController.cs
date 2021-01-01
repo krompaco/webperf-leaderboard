@@ -54,7 +54,7 @@ namespace WebApp.Controllers
 
                         var selectCmd = connection.CreateCommand();
                         selectCmd.CommandText =
-                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE most_recent = 1 AND type_of_test IN (1, 2, 6, 7, 20) ORDER BY site_id, type_of_test";
+                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND most_recent = 1 AND type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20) ORDER BY site_id, type_of_test";
 
                         var currentSiteId = -1;
                         WebperfSite currentSite = null;
@@ -78,7 +78,8 @@ namespace WebApp.Controllers
                                 TestDate = reader.GetDateTime(1),
                                 ReportText = reader.GetString(2),
                                 ReportJson = reader.GetString(3),
-                                Rating = double.Parse(reader.GetString(4), new CultureInfo("en-US"))
+                                Rating = double.Parse(reader.GetString(4), new CultureInfo("en-US")),
+                                TypeOfTest = reader.GetInt32(7),
                             };
 
                             // ReSharper disable once PossibleNullReferenceException
@@ -92,7 +93,7 @@ namespace WebApp.Controllers
 
                         // Sort by rating
                         model.Sites = model.Sites
-                            .OrderBy(x => x.Tests.Count == 5 ? 0 : 1)
+                            .OrderBy(x => x.Tests.Count == 11 ? 0 : 1)
                             .ThenByDescending(x => x.Rating)
                             .ThenByDescending(x => x.Tests.FirstOrDefault()?.Rating ?? 0d)
                             .ToList();
@@ -110,9 +111,13 @@ namespace WebApp.Controllers
 
         private static void SetRating(WebperfSite site)
         {
-            if (site != null && site.Tests.Count == 5)
+            if (site != null && site.Tests.Count == 11)
             {
-                site.Rating = site.Tests.Average(x => x.Rating);
+                var excludedTypes = new[] { 7, 8 };
+
+                site.Rating = site.Tests
+                    .Where(x => !excludedTypes.Contains(x.TypeOfTest))
+                    .Average(x => x.Rating);
             }
         }
     }

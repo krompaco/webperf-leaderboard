@@ -19,5 +19,8 @@ namespace WebApp.Models
 
         [JsonProperty("rating")]
         public double Rating { get; set; }
+
+        [JsonProperty("typeOfTest")]
+        public int TypeOfTest { get; set; }
     }
 }
