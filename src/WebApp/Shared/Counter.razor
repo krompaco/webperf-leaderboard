@@ -1,0 +1,14 @@
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<ButtonPrimary OnClickCallback="@IncrementCount" ExtraClasses="mt-3">Click me</ButtonPrimary>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

@@ -4,3 +4,4 @@ src/WebApp/bin/
 src/WebApp/obj/
 src/WebApp/WebApp.csproj.user
 src/WebApp/Properties/PublishProfiles/FolderProfile.pubxml.user
+node_modules

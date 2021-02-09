@@ -54,7 +54,7 @@ namespace WebApp.Controllers
 
                         var selectCmd = connection.CreateCommand();
                         selectCmd.CommandText =
-                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND most_recent = 1 AND type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20) ORDER BY site_id, type_of_test";
+                            "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND most_recent = 1 AND type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20, 21) ORDER BY site_id, type_of_test";
 
                         var currentSiteId = -1;
                         WebperfSite currentSite = null;
@@ -93,7 +93,7 @@ namespace WebApp.Controllers
 
                         // Sort by rating
                         model.Sites = model.Sites
-                            .OrderBy(x => x.Tests.Count == 11 ? 0 : 1)
+                            .OrderBy(x => x.Tests.Count == 12 ? 0 : 1)
                             .ThenByDescending(x => x.Rating)
                             .ThenByDescending(x => x.Tests.FirstOrDefault()?.Rating ?? 0d)
                             .ToList();
@@ -111,7 +111,7 @@ namespace WebApp.Controllers
 
         private static void SetRating(WebperfSite site)
         {
-            if (site != null && site.Tests.Count == 11)
+            if (site != null && site.Tests.Count == 12)
             {
                 var excludedTypes = new[] { 7, 8 };
 

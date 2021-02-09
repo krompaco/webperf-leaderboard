@@ -22,8 +22,11 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         #pragma warning restore CA1822 // Mark members as static
         {
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+
+            // Blazor
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
 
             services.AddSwaggerGen(c =>
             {
@@ -72,9 +75,9 @@ namespace WebApp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Webperf}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("", "/_Host");
             });
         }
     }

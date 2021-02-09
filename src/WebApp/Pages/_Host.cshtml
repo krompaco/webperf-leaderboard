@@ -1,0 +1,31 @@
+﻿@page "/"
+@namespace WebApp.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webperf Core Leaderboard</title>
+    <meta name="description" content="Showing results from webperf_core-runs." />
+    <base href="~/" />
+    <link href="~/css/styles.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body class="bg-white text-gray-900">
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload default-link">Reload</a>
+        <a class="dismiss default-link">Close</a>
+    </div>
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>
