@@ -26,6 +26,18 @@
         <a href="" class="reload default-link">Reload</a>
         <a class="dismiss default-link">Close</a>
     </div>
+    <script>
+        function BlazorScrollToId(id) {
+            var element = document.getElementById(id);
+            if (element instanceof HTMLElement) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+        }
+    </script>
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

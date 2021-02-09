@@ -10,9 +10,11 @@
     var excludedTypes = new[] { 7, 8 };
 }
 
+<AnchorNavigation />
+
 @if (Model != null)
 {
-    <h2 class="font-bold text-xl mb-3 pt-6">Test results from <a class="text-blue-800 underline hover:text-blue-900" href="https://github.com/Webperf-se/webperf_core">Webperf-se/webperf_core</a></h2>
+    <h2 class="font-bold text-xl mb-3 pt-6">Test results from <a class="default-link" href="https://github.com/Webperf-se/webperf_core">Webperf-se/webperf_core</a></h2>
 
     <p class="mb-3">CSS and Lighthouse PWA are excluded from site average score.</p>
 
@@ -29,7 +31,7 @@
                             <span class="block mr-2">#@rank</span>
                             <span class="rounded-full bg-gray-900 px-3 py-2 text-sm text-white font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</span>
                         </span>
-                        <a class="block truncate text-blue-800 underline hover:text-blue-900" href="#pos-@rank">@site.Title</a>
+                        <a class="block truncate default-link" href="#pos-@rank">@site.Title</a>
                     </div>
                 </li>
             }
@@ -49,7 +51,7 @@
                                         <span class="block mr-2">#@rank</span>
                                         <span class="rounded-full bg-gray-900 px-3 py-2 text-lg text-white font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</span>
                                     </span>
-                                    <a class="block truncate text-blue-800 underline hover:text-blue-900" href="@site.Url">@site.Title</a>
+                                    <a class="block truncate default-link" href="@site.Url">@site.Title</a>
                                 </h3>
                                 <p class="text-sm">Ran between @site.Tests.Min(x => x.TestDate).ToString("yyyy-MM-dd HH:mm:ss") and @site.Tests.Max(x => x.TestDate).ToString("HH:mm:ss", new CultureInfo("en-US")).</p>
                             </div>
