@@ -22,9 +22,14 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         #pragma warning restore CA1822 // Mark members as static
         {
-            services.AddControllersWithViews();
+            // For API controller
+            services
+                .AddMvcCore()
+                .AddApiExplorer()
+                .AddDataAnnotations()
+                .AddFormatterMappings();
 
-            // Blazor
+            // For Blazor Server setup
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
@@ -77,7 +82,9 @@ namespace WebApp
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("", "/_Host");
+
+                // To not disturb API URL and since we only got a page on / which is = ""
+                endpoints.MapFallbackToPage(string.Empty, "/_Host");
             });
         }
     }

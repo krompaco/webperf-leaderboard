@@ -26,13 +26,13 @@
             {
                 rank++;
                 <li class="mb-2 w-full sm:w-1/2 lg:w-1/3 xl:w-2/12">
-                    <div class="p-3 bg-gray-200 sm:mr-3">
+                    <a class="block p-3 bg-gray-200 sm:mr-3 hover:bg-yellow-200 focus:bg-yellow-200" href="#pos-@rank">
                         <span class="flex items-center mb-3">
                             <span class="block mr-2">#@rank</span>
                             <span class="rounded-full bg-gray-900 px-3 py-2 text-sm text-white font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</span>
                         </span>
-                        <a class="block truncate default-link" href="#pos-@rank">@site.Title</a>
-                    </div>
+                        <span class="block truncate underline text-blue-600">@site.Title</span>
+                    </a>
                 </li>
             }
         </ul>
@@ -45,16 +45,16 @@
                 <li id="pos-@rank" class="mb-8 @(rank == 1 ? "pt-8" : "pt-8 border-t border-gray-600")">
                     <div class="flex flex-wrap">
                         <div class="w-full sm:w-1/2 lg:w-1/3 xl:w-2/12">
-                            <div class="p-3 bg-gray-200 sm:mr-3">
+                            <a class="block p-3 bg-gray-200 sm:mr-3 hover:bg-yellow-200 focus:bg-yellow-200" href="@site.Url">
                                 <h3 class="text-lg mb-4">
                                     <span class="flex items-center mb-3">
                                         <span class="block mr-2">#@rank</span>
                                         <span class="rounded-full bg-gray-900 px-3 py-2 text-lg text-white font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</span>
                                     </span>
-                                    <a class="block truncate default-link" href="@site.Url">@site.Title</a>
+                                    <span class="block truncate underline text-blue-600">@site.Title</span>
                                 </h3>
                                 <p class="text-sm">Ran between @site.Tests.Min(x => x.TestDate).ToString("yyyy-MM-dd HH:mm:ss") and @site.Tests.Max(x => x.TestDate).ToString("HH:mm:ss", new CultureInfo("en-US")).</p>
-                            </div>
+                            </a>
                         </div>
                         @if (site.Tests.Count == 12)
                         {
