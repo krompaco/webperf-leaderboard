@@ -4,6 +4,11 @@
     "title": "Webperf Core Leaderboard",
     "version": "v1"
   },
+  "servers": [
+    {
+      "url": "https://localhost:5001"
+    }
+  ],
   "paths": {
     "/api/webperf-index": {
       "get": {
@@ -26,32 +31,52 @@
           }
         }
       }
+    },
+    "/api/webperf-tests/{id}": {
+      "get": {
+        "tags": [
+          "Api"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebperfTestsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "WebperfTest": {
+      "WebperfIndexResponse": {
         "type": "object",
         "properties": {
-          "testDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "reportText": {
-            "type": "string",
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebperfSite"
+            },
             "nullable": true
-          },
-          "reportJson": {
-            "type": "string",
-            "nullable": true
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "typeOfTest": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -77,14 +102,48 @@
               "$ref": "#/components/schemas/WebperfTest"
             },
             "nullable": true
+          },
+          "siteId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
       },
-      "WebperfIndexResponse": {
+      "WebperfTest": {
         "type": "object",
         "properties": {
-          "sites": {
+          "testDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reportText": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          },
+          "typeOfTest": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "siteId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WebperfTestsResponse": {
+        "type": "object",
+        "properties": {
+          "testRuns": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/WebperfSite"

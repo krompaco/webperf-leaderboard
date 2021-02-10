@@ -36,10 +36,10 @@
 
   <ItemGroup>
     <Folder Include="Services\Generated\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Shared\TestHistory.razor" />
     <None Include="Shared\Counter.razor" />
     <None Include="Pages\Error.cshtml" />
     <None Include="Pages\Index.razor" />

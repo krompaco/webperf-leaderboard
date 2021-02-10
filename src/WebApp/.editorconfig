@@ -77,7 +77,3 @@ dotnet_diagnostic.CA2227.severity = none
 
 # CA1056: Uri properties should not be strings
 dotnet_diagnostic.CA1056.severity = suggestion
-
-[*.{html,htm,css,js,json,txt,php,xml,config,cshtml,aspx,ascx}]
-indent_style = tab
-end_of_line = lf

@@ -24,5 +24,8 @@ namespace WebApp.Models
 
         [JsonProperty("tests")]
         public List<WebperfTest> Tests { get; set; }
+
+        [JsonProperty("siteId")]
+        public int SiteId { get; set; }
     }
 }

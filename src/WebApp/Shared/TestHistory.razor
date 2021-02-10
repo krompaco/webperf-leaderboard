@@ -1,0 +1,78 @@
+@using System.Globalization
+@using WebApp.Services.Generated
+@inject IApiClient ApiClient
+
+@{ var divId = "history-" + Site.SiteId; }
+
+<div class="w-full flex items-center justify-center">
+	<ButtonPrimary OnClickCallback="@(async () => await this.ToggleHistory())" ExtraClasses="mt-3" AriaExpanded="@Visible" AriaControls="@divId">@this.ButtonText for @Site.Title</ButtonPrimary>
+</div>
+
+@if (this.Model != null && this.Visible)
+{
+    var headings = new[] { "Lighthouse Performance", "404 page", "Lighthouse SEO", "Lighthouse Best Practices", "W3C HTML", "W3C CSS", "Lighthouse PWA", "Standard files", "Lighthouse A11y", "Yellow Lab Tools", "Webbkoll", "HTTP & Tech" };
+    var i = 0;
+    <div class="prose prose-sm max-w-none" id="history-@Site.SiteId">
+        <div class="table-wrapper">
+            <table>
+                <caption class="font-medium text-xl mb-4">History for @Site.Title</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Rating</th>
+                        @foreach (var test in Site.Tests)
+                        {
+                            <th scope="col">@headings[i]</th>
+                            i++;
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var site in this.Model.TestRuns)
+                    {
+                        <tr>
+                            <td>@site.Tests.Min(x => x.TestDate).ToString("yyyy-MM-dd")</td>
+                            <td class="font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</td>
+                            @{ i = 0; }
+                            @foreach (var test in Site.Tests)
+                            {
+                                <td title="@headings[i] @test.Rating.ToString("0.00", new CultureInfo("en-US"))">@test.Rating.ToString("0.0", new CultureInfo("en-US"))</td>
+                                i++;
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public WebperfSite Site { get; set; }
+
+    private WebperfTestsResponse Model { get; set; }
+
+    private bool Visible { get; set; }
+
+    private string ButtonText = "Show history";
+
+    private async Task ToggleHistory()
+    {
+        if (this.Site == null)
+        {
+            return;
+        }
+
+        this.Visible = !this.Visible;
+
+        this.ButtonText = this.Visible ? "Hide history" : "Show history";
+
+        if (!this.Visible || this.Model != null)
+        {
+            return;
+        }
+
+        this.Model = await this.ApiClient.WebperfTestsAsync(this.Site.SiteId);
+    }
+}

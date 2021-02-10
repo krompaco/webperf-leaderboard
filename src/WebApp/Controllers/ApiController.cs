@@ -76,7 +76,7 @@ namespace WebApp.Controllers
                     {
                         SetRating(currentSite);
 
-                        currentSite = new WebperfSite { Title = reader.GetString(5), Url = reader.GetString(6) };
+                        currentSite = new WebperfSite { Title = reader.GetString(5), Url = reader.GetString(6), SiteId = siteId };
                         model.Sites.Add(currentSite);
                     }
 
@@ -162,7 +162,7 @@ namespace WebApp.Controllers
 
                     var selectCmd = connection.CreateCommand();
                     selectCmd.CommandText =
-                        $"SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE t.most_recent = 0 AND s.active = 1 AND s.id = {id.Value} AND t.type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20, 21) AND t.test_date BETWEEN '{GetDbFormat(currentFrom)}' AND '{GetDbFormat(to)}' ORDER BY t.type_of_test";
+                        $"SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND s.id = {id.Value} AND t.type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20, 21) AND t.test_date BETWEEN '{GetDbFormat(currentFrom)}' AND '{GetDbFormat(to)}' ORDER BY t.type_of_test";
 
                     Console.WriteLine(selectCmd.CommandText);
 
@@ -215,7 +215,7 @@ namespace WebApp.Controllers
                     .ToList();
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(1));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
 
                 this.memoryCache.Set(ck, model, cacheEntryOptions);
             }
