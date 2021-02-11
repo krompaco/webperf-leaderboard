@@ -1,19 +1,15 @@
 @inherits LayoutComponentBase
 
-<div class="m-4">
-    <div class="flex mb-3">
-        <div class="flex-auto" role="navigation">
-            <ul class="flex">
-                <li class="mr-6">
-                    <a class="default-link" href="/swagger/index.html">Swagger UI</a>
-                </li>
-            </ul>
-        </div>
-        <div class="flex-auto text-right invisible sm:visible" role="banner">
-            <h1 class="font-bold">Webperf Core Leaderboard</h1>
-        </div>
-    </div>
-    <div class="mb-3" id="main" role="main">
+<div class="m-2 sm:m-4">
+    <div class="mb-20" id="main" role="main">
         @Body
+    </div>
+    <div role="contentinfo">
+        <h2 class="font-extrabold tracking-tight text-lg">API for developers</h2>
+        <ul class="mb-20">
+            <li>
+                <a class="default-link" href="/swagger/index.html">Swagger UI documentation</a>
+            </li>
+        </ul>
     </div>
 </div>

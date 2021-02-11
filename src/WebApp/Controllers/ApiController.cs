@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WebApp.Models;
+using WebApp.Shared;
 
 namespace WebApp.Controllers
 {
@@ -23,11 +24,14 @@ namespace WebApp.Controllers
 
         private readonly IMemoryCache memoryCache;
 
+        private readonly TestTypes testTypes;
+
         public ApiController(ILogger<ApiController> logger, IConfiguration config, IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.config = config;
             this.memoryCache = memoryCache;
+            this.testTypes = new TestTypes();
         }
 
         [HttpGet("webperf-index")]
@@ -61,7 +65,7 @@ namespace WebApp.Controllers
 
                 var selectCmd = connection.CreateCommand();
                 selectCmd.CommandText =
-                    "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND most_recent = 1 AND type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20, 21) ORDER BY site_id, type_of_test";
+                    "SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND most_recent = 1 AND type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 15, 17, 20, 21) ORDER BY site_id, type_of_test";
 
                 var currentSiteId = -1;
                 WebperfSite currentSite = null;
@@ -97,11 +101,11 @@ namespace WebApp.Controllers
                 }
 
                 // Rating calculation for last site
-                SetRating(currentSite);
+                this.SetRating(currentSite);
 
                 // Sort by rating
                 model.Sites = model.Sites
-                    .OrderBy(x => x.Tests.Count == 12 ? 0 : 1)
+                    .OrderBy(x => x.Tests.Count == this.testTypes.Count ? 0 : 1)
                     .ThenByDescending(x => x.Rating)
                     .ThenByDescending(x => x.Tests.FirstOrDefault()?.Rating ?? 0d)
                     .ToList();
@@ -162,7 +166,7 @@ namespace WebApp.Controllers
 
                     var selectCmd = connection.CreateCommand();
                     selectCmd.CommandText =
-                        $"SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND s.id = {id.Value} AND t.type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 17, 20, 21) AND t.test_date BETWEEN '{GetDbFormat(currentFrom)}' AND '{GetDbFormat(to)}' ORDER BY t.type_of_test";
+                        $"SELECT t.site_id, t.test_date, t.check_report, t.json_check_data, t.rating, s.title, s.website, t.type_of_test FROM sitetests t INNER JOIN sites s ON s.id = t.site_id WHERE s.active = 1 AND s.id = {id.Value} AND t.type_of_test IN (1, 2, 4, 5, 6, 7, 8, 9, 10, 15, 17, 20, 21) AND t.test_date BETWEEN '{GetDbFormat(currentFrom)}' AND '{GetDbFormat(to)}' ORDER BY t.type_of_test";
 
                     Console.WriteLine(selectCmd.CommandText);
 
@@ -193,18 +197,18 @@ namespace WebApp.Controllers
                         currentSite.Tests.Add(test);
                     }
 
-                    if (currentSite == null || currentSite.Tests.Count > 12)
+                    if (currentSite == null || currentSite.Tests.Count > this.testTypes.Count)
                     {
                         continue;
                     }
 
-                    if (currentSite.Tests.Count < 12)
+                    if (currentSite.Tests.Count < this.testTypes.Count)
                     {
                         break;
                     }
 
                     // Rating calculation for last site
-                    SetRating(currentSite);
+                    this.SetRating(currentSite);
 
                     model.TestRuns.Add(currentSite);
                 }
@@ -228,14 +232,12 @@ namespace WebApp.Controllers
             return x.ToString("yyyy-MM-dd'T'HH:mm:ss");
         }
 
-        private static void SetRating(WebperfSite site)
+        private void SetRating(WebperfSite site)
         {
-            if (site != null && site.Tests.Count == 12)
+            if (site != null && site.Tests.Count == this.testTypes.Count)
             {
-                var excludedTypes = new[] { 7, 8 };
-
                 site.Rating = site.Tests
-                    .Where(x => !excludedTypes.Contains(x.TypeOfTest))
+                    .Where(x => !this.testTypes.ExcludedTypes.Contains(x.TypeOfTest))
                     .Average(x => x.Rating);
             }
         }

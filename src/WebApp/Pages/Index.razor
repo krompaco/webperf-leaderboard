@@ -5,17 +5,16 @@
 @inject IApiClient ApiClient
 
 @{
-    var headings = new[] { "Lighthouse Performance", "404 page", "Lighthouse SEO", "Lighthouse Best Practices", "W3C HTML", "W3C CSS", "Lighthouse PWA", "Standard files", "Lighthouse A11y", "Yellow Lab Tools", "Webbkoll", "HTTP & Tech" };
-    var excludedTypes = new[] { 7, 8 };
+    var testTypes = new TestTypes();
 }
 
 <AnchorNavigation />
 
 @if (Model != null)
 {
-    <h2 class="font-bold text-xl mb-3 pt-6">Test results from <a class="default-link" href="https://github.com/Webperf-se/webperf_core">Webperf-se/webperf_core</a></h2>
+    <h1 class="font-extrabold tracking-tight text-gray-700 text-2xl mb-3">Test results from<br class="sm:hidden" /> <a class="default-link" href="https://github.com/Webperf-se/webperf_core">Webperf-se/webperf_core</a></h1>
 
-    <p class="mb-3">CSS and Lighthouse PWA are excluded from site average score.</p>
+    <p class="mb-10 text-sm">Note that results from CSS and Lighthouse PWA tests are excluded from the average score.</p>
 
     @if (Model.Sites.Count > 0)
     {
@@ -25,12 +24,12 @@
             {
                 rank++;
                 <li class="mb-2 w-full sm:w-1/2 lg:w-1/3 xl:w-2/12">
-                    <a class="block p-3 bg-gray-200 sm:mr-3 hover:bg-yellow-200 focus:bg-yellow-200" href="#pos-@rank">
+                    <a class="block p-3 sm:mr-3 bg-gray-200 hover:bg-yellow-200 focus:bg-yellow-200" href="#pos-@rank">
                         <span class="flex items-center mb-3">
                             <span class="block mr-2">#@rank</span>
                             <span class="rounded-full bg-gray-900 px-3 py-2 text-sm text-white font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</span>
                         </span>
-                        <span class="block truncate underline text-blue-600,">@site.Title</span>
+                        <span class="block truncate underline text-blue-600">@site.Title</span>
                     </a>
                 </li>
             }
@@ -44,7 +43,7 @@
                 <li class="mb-8">
                     <div class="flex flex-wrap">
                         <div class="w-full mb-4">
-                            <a id="pos-@rank" class="block p-3 bg-gray-200 sm:mr-3 hover:bg-yellow-200 focus:bg-yellow-200" href="@site.Url">
+                            <a id="pos-@rank" class="block sm:mr-3 p-3 bg-gray-200 hover:bg-yellow-200 focus:bg-yellow-200" href="@site.Url">
                                 <h3 class="text-lg mb-4">
                                     <span class="block truncate underline text-blue-600">@site.Title</span>
                                 </h3>
@@ -55,16 +54,16 @@
                                 <p class="text-sm">Ran between @site.Tests.Min(x => x.TestDate).ToString("yyyy-MM-dd HH:mm:ss") and @site.Tests.Max(x => x.TestDate).ToString("HH:mm:ss").</p>
                             </a>
                         </div>
-                        @if (site.Tests.Count == 12)
+                        @if (site.Tests.Count == testTypes.Count)
                         {
                             @foreach (var test in site.Tests)
                             {
                                 <div class="p-3 w-full sm:w-1/2 md:w-1/3">
                                     <h4 class="flex items-center text-lg mb-2">
-                                        <span class="block truncate mr-2">@headings[i]</span>
-                                        <span class="rounded-full @(excludedTypes.Contains(test.TypeOfTest) ? "bg-gray-500" : "bg-gray-700") bg-black px-2 py-1 text-sm text-white font-bold">@test.Rating.ToString("0.0", new CultureInfo("en-US"))</span>
+                                        <span class="block truncate mr-2 font-extrabold tracking-tight text-gray-700">@testTypes.AllHeadings[i]</span>
+                                        <span class="rounded-full @(testTypes.ExcludedTypes.Contains(test.TypeOfTest) ? "bg-gray-500" : "bg-gray-700") bg-black px-2 py-1 text-sm text-white font-bold">@test.Rating.ToString("0.0", new CultureInfo("en-US"))</span>
                                     </h4>
-                                    @((MarkupString)Markdig.Markdown.ToHtml(test.ReportText).Replace("<li>", "<li class=\"mb-1 text-xs\">").Replace("<ul>", "<ul class=\"list-disc list-outside ml-4\">").Replace("<p>", "<p class=\"mt-3\">").Replace("org.w3c.css.parser.analyzer.ParseException", "analyzer.ParseException").Replace("Look up", " Look up"))
+                                    @((MarkupString)Markdig.Markdown.ToHtml(test.ReportText).Replace("<li>", "<li class=\"mb-1 text-xs\">").Replace("<ul>", "<ul class=\"list-disc list-outside ml-4\">").Replace("<p>", "<p class=\"mt-3 text-xs\">").Replace("org.w3c.css.parser.analyzer.ParseException", "analyzer.ParseException").Replace("Look up", " Look up"))
                                 </div>
                                 i++;
                             }

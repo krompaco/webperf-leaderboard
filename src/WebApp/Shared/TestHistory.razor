@@ -2,41 +2,41 @@
 @using WebApp.Services.Generated
 @inject IApiClient ApiClient
 
-@{ var divId = "history-" + Site.SiteId; }
+@{
+    var divId = "history-" + Site.SiteId;
+    var testTypes = new TestTypes();
+}
 
-<div class="w-full flex items-center justify-center">
-	<ButtonPrimary OnClickCallback="@(async () => await this.ToggleHistory())" ExtraClasses="mt-3" AriaExpanded="@Visible" AriaControls="@divId">@this.ButtonText for @Site.Title</ButtonPrimary>
-</div>
+<ButtonPrimary OnClickCallback="@(async () => await this.ToggleHistory())" ExtraClasses="mt-3" AriaExpanded="@Visible" AriaControls="@divId">@this.ButtonText for @Site.Title</ButtonPrimary>
 
 @if (this.Model != null && this.Visible)
 {
-    var headings = new[] { "Lighthouse Performance", "404 page", "Lighthouse SEO", "Lighthouse Best Practices", "W3C HTML", "W3C CSS", "Lighthouse PWA", "Standard files", "Lighthouse A11y", "Yellow Lab Tools", "Webbkoll", "HTTP & Tech" };
     var i = 0;
     <div class="prose prose-sm max-w-none" id="history-@Site.SiteId">
-        <div class="table-wrapper">
+        <div class="table-wrapper sm:mr-3">
             <table>
-                <caption class="font-medium text-xl mb-4">History for @Site.Title</caption>
+                <caption class="text-left font-extrabold tracking-tight text-gray-700 text-xl mb-4">History for @Site.Title</caption>
                 <thead>
                     <tr>
                         <th scope="col">Date</th>
-                        <th scope="col">Rating</th>
+                        <th scope="col">Average Score</th>
                         @foreach (var test in Site.Tests)
                         {
-                            <th scope="col">@headings[i]</th>
+                            <th scope="col">@testTypes.AllHeadings[i]</th>
                             i++;
                         }
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var site in this.Model.TestRuns)
+                    @foreach (var site in this.Model.TestRuns.Where(x => x.Tests.Count == testTypes.Count))
                     {
                         <tr>
                             <td>@site.Tests.Min(x => x.TestDate).ToString("yyyy-MM-dd")</td>
-                            <td class="font-bold">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</td>
+                            <td class="font-bold tracking-tight text-gray-700">@site.Rating.ToString("0.00", new CultureInfo("en-US"))</td>
                             @{ i = 0; }
                             @foreach (var test in Site.Tests)
                             {
-                                <td title="@headings[i] @test.Rating.ToString("0.00", new CultureInfo("en-US"))">@test.Rating.ToString("0.0", new CultureInfo("en-US"))</td>
+                                <td title="@testTypes.AllHeadings[i] @test.Rating.ToString("0.00", new CultureInfo("en-US"))">@test.Rating.ToString("0.0", new CultureInfo("en-US"))</td>
                                 i++;
                             }
                         </tr>
