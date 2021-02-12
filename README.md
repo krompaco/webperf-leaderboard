@@ -1,11 +1,12 @@
 # Webperf Core Leaderboard
-Reads Webperf Core SQLite data onto a dashboard-like .NET Core 3 ASP.NET MVC web page.
+Reads Webperf Core SQLite data onto a dashboard-like .NET 5.0 Blazor web page.
 
-![Screenshot](https://raw.githubusercontent.com/krompaco/webperf-leaderboard/master/docs/index-view.png)
+## Demo site
+Take a look: [Demo site running on Azure](https://webperf-leaderboard-demo.azurewebsites.net)
 
 ## Getting started
 1. Download or clone and set up [webperf_core](https://github.com/Webperf-se/webperf_core) on your machine.
-2. Edit `appsettings.json` and match the two path settings to your machine.
+2. Edit `appsettings.json` and match the path setting to your machine.
 3. Run the WebApp application.
 
 ## Contribute or modify
