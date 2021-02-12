@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>c7cd61bb-0a91-4f06-8a26-49435160d403</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -46,6 +47,12 @@
     <None Include="Pages\_Host.cshtml" />
     <None Include="Shared\ButtonPrimary.razor" />
     <None Include="Shared\MainLayout.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dbase.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 

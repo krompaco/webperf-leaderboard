@@ -86,12 +86,8 @@ namespace WebApp
             {
                 // TODO: Change later
                 app.UseDeveloperExceptionPage();
-
-                // The default value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

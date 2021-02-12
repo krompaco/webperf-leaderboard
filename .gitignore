@@ -6,3 +6,4 @@ src/WebApp/WebApp.csproj.user
 src/WebApp/Properties/PublishProfiles/FolderProfile.pubxml.user
 node_modules
 .vscode/
+src/WebApp/Properties/

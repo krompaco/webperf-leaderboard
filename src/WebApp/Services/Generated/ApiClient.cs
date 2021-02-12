@@ -41,7 +41,6 @@ namespace WebApp.Services.Generated
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.0.0 (NJsonSchema v10.3.0.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ApiClient : IApiClient
     {
-        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -56,12 +55,6 @@ namespace WebApp.Services.Generated
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
-        }
-    
-        public string BaseUrl 
-        {
-            get { return _baseUrl; }
-            set { _baseUrl = value; }
         }
     
     
@@ -85,7 +78,7 @@ namespace WebApp.Services.Generated
         public async System.Threading.Tasks.Task<WebperfIndexResponse> WebperfIndexAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/webperf-index");
+            urlBuilder_.Append("api/webperf-index");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -166,7 +159,7 @@ namespace WebApp.Services.Generated
                 throw new System.ArgumentNullException("id");
     
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/webperf-tests/{id}");
+            urlBuilder_.Append("api/webperf-tests/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
     
             var client_ = _httpClient;
