@@ -1,8 +1,15 @@
-<button type="button" aria-expanded="@AriaExpanded.ToString().ToLowerInvariant()" aria-controls="@AriaControls" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold tracking-tight rounded-full shadow-sm text-gray-100 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500@(string.IsNullOrWhiteSpace(this.ExtraClasses) ? string.Empty : " " + this.ExtraClasses)" @onclick="OnClickCallback">
-    @ChildContent
-</button>
+@inject IJSRuntime JSRuntime
+
+@if (isJs)
+{
+    <button type="button" aria-expanded="@AriaExpanded.ToString().ToLowerInvariant()" aria-controls="@AriaControls" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold tracking-tight rounded-full shadow-sm text-gray-100 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:bg-yellow-200 focus:text-gray-900 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500@(string.IsNullOrWhiteSpace(this.ExtraClasses) ? string.Empty : " " + this.ExtraClasses)" @onclick="OnClickCallback">
+        @ChildContent
+    </button>
+}
 
 @code {
+    private bool isJs = false;
+
     [Parameter]
     public string ExtraClasses { get; set; }
 
@@ -17,4 +24,20 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var result = await JSRuntime.InvokeAsync<string>("GetGlobalJsIndicator");        
+        this.isJs = result == "set";
+
+        if (this.isJs)
+        {
+            StateHasChanged();
+        }
+    }
 }

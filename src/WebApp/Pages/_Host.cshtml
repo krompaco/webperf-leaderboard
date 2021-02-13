@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Webperf Core Leaderboard</title>
     <meta name="description" content="Showing results from webperf_core-runs." />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/ico" />
     <base href="~/" />
     <link href="~/css/styles.css" rel="stylesheet" asp-append-version="true" />
 </head>
@@ -20,13 +21,20 @@
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
         </environment>
-        <environment include="Development">
+        <environment include="Development,Demo">
             An unhandled exception has occurred. See browser dev tools for details.
         </environment>
-        <a href="" class="reload default-link">Reload</a>
-        <a class="dismiss default-link">Close</a>
+        <a href="/" class="reload default-link">Reload</a>
+        <a href="/" class="dismiss default-link">Close</a>
     </div>
     <script>
+        window.globalJsIndicator = 'unset';
+        function SetGlobalJsIndicator() {
+            window.globalJsIndicator = 'set';
+        }
+        function GetGlobalJsIndicator() {
+            return window.globalJsIndicator;
+        }
         function BlazorScrollToId(id) {
             var element = document.getElementById(id);
             if (element instanceof HTMLElement) {

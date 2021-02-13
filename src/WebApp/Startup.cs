@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,6 +31,16 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         #pragma warning restore CA1822 // Mark members as static
         {
+            services.AddResponseCompression(o =>
+            {
+                o.EnableForHttps = true;
+            });
+
+            services.Configure<BrotliCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
+
             // For API controller
             services
                 .AddMvcCore()
@@ -76,6 +88,8 @@ namespace WebApp
         public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
         #pragma warning restore CA1822 // Mark members as static
         {
+            app.UseResponseCompression();
+
             this.env = environment;
 
             if (this.env.IsDevelopment())

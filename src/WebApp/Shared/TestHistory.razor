@@ -9,10 +9,10 @@
 
 <ButtonPrimary OnClickCallback="@(async () => await this.ToggleHistory())" ExtraClasses="mt-3" AriaExpanded="@Visible" AriaControls="@divId">@this.ButtonText for @Site.Title</ButtonPrimary>
 
-@if (this.Model != null && this.Visible)
-{
-    var i = 0;
-    <div class="prose prose-sm max-w-none" id="history-@Site.SiteId">
+<div class="prose prose-sm max-w-none" id="@divId">
+    @if (this.Model != null && this.Visible)
+    {
+        var i = 0;
         <div class="table-wrapper sm:mr-3">
             <table>
                 <caption class="text-left font-extrabold tracking-tight text-gray-700 text-xl mb-4">History for @Site.Title</caption>
@@ -44,8 +44,8 @@
                 </tbody>
             </table>
         </div>
-    </div>
-}
+    }
+</div>
 
 @code {
     [Parameter]

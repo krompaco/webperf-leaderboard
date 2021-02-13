@@ -78,7 +78,7 @@ namespace WebApp.Controllers
 
                     if (siteId != currentSiteId)
                     {
-                        SetRating(currentSite);
+                        this.SetRating(currentSite);
 
                         currentSite = new WebperfSite { Title = reader.GetString(5), Url = reader.GetString(6), SiteId = siteId };
                         model.Sites.Add(currentSite);

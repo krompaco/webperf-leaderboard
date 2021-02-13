@@ -2,6 +2,8 @@
 @inject NavigationManager NavigationManager
 @implements IDisposable
 @code {
+    private bool globalJsIndicatorSet = false;
+
     protected override void OnInitialized()
     {
         NavigationManager.LocationChanged += OnLocationChanged;
@@ -26,6 +28,14 @@
     {
         var uri = new Uri(NavigationManager.Uri, UriKind.Absolute);
         var fragment = uri.Fragment;
+
+        // If we are here JS seems to be "online" so fix all data-attributes
+        if (!globalJsIndicatorSet)
+        {
+            await JSRuntime.InvokeVoidAsync("SetGlobalJsIndicator");
+            globalJsIndicatorSet = true;
+        }
+
         if (fragment.StartsWith('#'))
         {
             // Handle text fragment (https://example.org/#test:~:text=foo)

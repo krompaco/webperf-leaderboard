@@ -48,7 +48,7 @@
 }
 
 .prose a, .default-link {
-	@apply underline text-blue-600 hover:bg-yellow-200 hover:text-gray-900 hover:no-underline focus:bg-yellow-200 focus:text-gray-900 focus:no-underline;
+	@apply underline text-blue-700 hover:bg-yellow-200 hover:text-gray-900 hover:no-underline focus:bg-yellow-200 focus:text-gray-900 focus:no-underline;
 }
 
 .prose pre, .prose pre code {
