@@ -23,7 +23,7 @@
 		"@tailwindcss/typography": "^0.3.1",
 		"autoprefixer": "^9.8.6",
 		"file-loader": "^6.0.0",
-		"postcss": "^7.0.35",
+		"postcss": "^8.2.10",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
 		"url-loader": "^4.1.0"
 	}
