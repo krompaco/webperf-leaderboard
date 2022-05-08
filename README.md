@@ -1,6 +1,9 @@
 # Webperf Core Leaderboard
 Reads Webperf Core SQLite data onto a dashboard-like .NET 5.0 Blazor web page.
 
+# UPDATE May 8th 2022
+I recommend looking at [my other leaderboard project](https://github.com/krompaco/webperf-omvp-rc-leaderboard) instead, it generates a static site and has examples on how to run the tests more stable and in more steps with GitHub Actions.
+
 ## Demo site
 Take a look: [Demo site running on Azure](https://webperf-leaderboard-demo.azurewebsites.net)
 
